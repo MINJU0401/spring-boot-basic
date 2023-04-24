@@ -1,5 +1,8 @@
 package com.minju.firstproject.constroller;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.minju.firstproject.dto.request.ExampleDto;
+import com.minju.firstproject.dto.response.ExampleResponseDto;
+import com.minju.firstproject.service.RestApiService;
+import com.minju.firstproject.service.implement.RestApiServiceImplement;
 
 import ch.qos.logback.core.status.Status;
 
@@ -44,6 +52,12 @@ class ParamDto {
 //* URL path 패턴을 지정해서 해당 패턴이면 지정한 클래스로 처리하도록 함 */
 @RequestMapping("api")
 public class RestApiController {
+
+    private RestApiService restApiService;
+
+    public RestApiController(RestApiServiceImplement restApiService) {
+        this.restApiService = restApiService;
+    }
     
     @RequestMapping(method={RequestMethod.GET}, value="hello2")
     public String hello2() {
@@ -55,7 +69,7 @@ public class RestApiController {
     //* @RequestMapping(method=RequestMethod.GET, value="get-method") */
     @GetMapping("get-method")
     public String getMethod() {
-        return "Response of Get Request";
+        return restApiService.getMethod();
     }
 
     //* Post Method @PostMapping */
@@ -63,7 +77,7 @@ public class RestApiController {
     //* @RequestMapping(method=RequestMethod.POST, value="post-method") */
     @PostMapping("post-method")
     public String postMethod() {
-        return "Response of Post Request";
+        return restApiService.postMethod();
     }
 
     //* Patch Method @PatchMapping */
@@ -71,7 +85,7 @@ public class RestApiController {
     //* @RequestMapping(method=RequestMethod.PATCH, value="patch-method") */
     @PatchMapping("patch-method")
     public String patchMethod() {
-        return "Response of Patch Request";
+        return restApiService.patchMethod();
     }
 
     //* Delete Method @DeleteMapping */
@@ -79,7 +93,7 @@ public class RestApiController {
     //* @RequestMapping(method=RequestMethod.DELETE, value="delete-method") */
     @DeleteMapping("delete-method")
     public String deleteMethod() {
-        return "Response of Delete Request";
+        return restApiService.deleteMethod();
     }
 
     //* PathVariable() 로 Get, Delete Method에서 데이터 받기 */
@@ -113,5 +127,23 @@ public class RestApiController {
     ) {
         return ResponseEntity.status(408).body(dto);
     }
-    }
+    
 
+    @PostMapping("lombok")
+    public ResponseEntity<ExampleResponseDto> lombok(
+        @Valid @RequestBody ExampleDto requestBody
+    ) {
+        String data1 = requestBody.getParameter1();
+        String data2 = requestBody.getParameter2();
+        String data3 = requestBody.getParameter3();
+
+        // ExampleResponseDto responseData = 
+        //     new ExampleResponseDto(data1, data2, data3);
+        
+        ExampleResponseDto responseData = 
+            ExampleResponseDto.builder().data1(data1).build();
+
+        return ResponseEntity.status(200).body(responseData);
+
+    }
+}
