@@ -6,12 +6,14 @@ import com.minju.board.dto.response.ResponseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetResponseDto extends ResponseDto {
+public class GetBoardResponseDto extends ResponseDto {
     private int boardNumber;
     private String boardTitle;
     private String boardContent;
@@ -22,13 +24,31 @@ public class GetResponseDto extends ResponseDto {
     private String boardWriterNickname;
     private String boardWriterProfileImageUrl;
     private List<Comment> commentList;
-    private List<Liky> likyList;
+    private List<Liky> likeList;
     
 }
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class Comment{
-
+    private int commentNumber;
+    private int boardNumber;
+    private String commentWriterEmail;
+    private String commentContent;
+    private String commentWriterNickname;
+    private String commentWriterProfileImageUrl;
+    private String commentWriteDatetime;
 }
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 class Liky{
-    
+    private int boardNumber;
+    private String userEmail;
+    private String userNickname;
+    private String userprofileImageUrl;
 }

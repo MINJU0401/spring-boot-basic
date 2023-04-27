@@ -1,10 +1,15 @@
 package com.minju.board.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import com.minju.board.dto.request.board.PostBoardRequestDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +31,19 @@ public class BoardEntity {
     private String BoardImageUrl;
     private String writeDatetime;
     private int viewCount;
+
+    public BoardEntity(PostBoardRequestDto dto) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat =
+            new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
+        String writeDatetime = simpleDateFormat.format(now);
+
+        this.writerEmail = dto.getBoardWriterEmail();
+        this.title = dto.getBoardTitle();
+        this.content = dto.getBoardContent();
+        this.BoardImageUrl = dto.getBoardImageUrl();
+        this.writeDatetime = writeDatetime;
+        this.viewCount = 0;
+    }
 }
