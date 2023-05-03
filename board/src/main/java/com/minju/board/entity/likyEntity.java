@@ -15,13 +15,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Liky")
-@Table(name = "liky")
+@Table(name = "Liky")
 @IdClass(LikyPk.class)
-public class likyEntity {
-
+public class LikyEntity {
+    
     @Id
     private int boardNumber;
     @Id
     private String userEmail;
+    private String userNickname;
+    private String userProfileImageUrl;
 
 }
